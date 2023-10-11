@@ -5,6 +5,8 @@ import com.example.loginpage.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UsersService {
 
@@ -19,9 +21,16 @@ public class UsersService {
             usersModel.setEmail(email);
             return usersRepository.save(usersModel);
         }
-        else throw new RuntimeException("Null");
+        else{
+            System.out.println(login);
+            System.out.println(password);
+        } throw new RuntimeException("Null");
     }
     public UsersModel authenticate(String login, String password){
         return usersRepository.findByLoginAndPassword(login,password).orElse(null);
+    }
+
+    public List<UsersModel> getAllUsers() {
+        return usersRepository.findAll();
     }
 }
