@@ -14,6 +14,11 @@ public class UsersService {
     private UsersRepository usersRepository;
 
     public UsersModel registerUser(String login, String password, String email){
+        var users = usersRepository.findAll();
+        if (users.stream().map(UsersModel::getLogin).toList().contains(login))
+        {
+            return null;
+        }
         if (login != null && password != null){
             var usersModel = new UsersModel();
             usersModel.setLogin(login);
@@ -21,10 +26,7 @@ public class UsersService {
             usersModel.setEmail(email);
             return usersRepository.save(usersModel);
         }
-        else{
-            System.out.println(login);
-            System.out.println(password);
-        } throw new RuntimeException("Null");
+        return null;
     }
     public UsersModel authenticate(String login, String password){
         return usersRepository.findByLoginAndPassword(login,password).orElse(null);
