@@ -11,5 +11,5 @@ public class LeaderboardModel {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     String login;
-    String score;
+    Integer score;
 }
