@@ -23,11 +23,10 @@ public class UsersController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UsersModel usersModel) {
+    public UsersModel login(@RequestBody UsersModel usersModel) {
         System.out.println("Login: " + usersModel);
-        var userAuthenticated = usersService.authenticate(usersModel.getLogin(), usersModel.getPassword());
-        System.out.println(userAuthenticated);
-        return userAuthenticated == null ? "Error" : userAuthenticated.getLogin();
+        return usersService.authenticate(usersModel.getLogin(), usersModel.getPassword());
+
     }
 
 }
