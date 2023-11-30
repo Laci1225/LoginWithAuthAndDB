@@ -2,13 +2,11 @@ package com.example.loginpage.service;
 
 import com.example.loginpage.model.LeaderboardModel;
 import com.example.loginpage.repository.LeaderboardRepository;
-import org.hibernate.collection.spi.PersistentBag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,20 +21,18 @@ public class LeaderboardService {
 
     public LeaderboardModel saveScore(LeaderboardModel leaderboard) {
         LeaderboardModel existingLeaderboard = leaderboardRepository.findByLogin(leaderboard.getLogin());
-
-        if (leaderboard.getLogin() == null || leaderboard.getLogin().isEmpty()) {
+        if (leaderboard.getLogin() == null || leaderboard.getLogin().isEmpty())
             return null;
-        }
         if (existingLeaderboard == null) {
-            leaderboard.setModifiedAt(LocalDateTime.now());
-            return leaderboardRepository.save(leaderboard);
-        } else if(leaderboard.getScore() > existingLeaderboard.getScore()) {
             leaderboard.setCreatedAt(LocalDateTime.now());
             leaderboard.setModifiedAt(LocalDateTime.now());
-            leaderboard.setId(existingLeaderboard.getId());
+            return leaderboardRepository.save(leaderboard);
+        } else if (leaderboard.getScore() > existingLeaderboard.getScore()) {
             existingLeaderboard.setScore(leaderboard.getScore());
+            existingLeaderboard.setModifiedAt(LocalDateTime.now());
             return leaderboardRepository.save(existingLeaderboard);
         }
-        else return null;
+        return null;
     }
+
 }
